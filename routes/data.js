@@ -6,4 +6,8 @@ router.post('/sensor', function(req, res, next) {
     res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
 });
 
+router.get('/sensor', function(req, res, next) {
+    res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
+});
+
 module.exports = router;
