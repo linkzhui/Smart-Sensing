@@ -112,10 +112,14 @@
         font-size: 1.5em;
       }
     }
+    /* Set the size of the div element that contains the map */
+    #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+    }
 
 
   </style>
-
   <script
           src="https://code.jquery.com/jquery-3.1.1.min.js"
           integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -124,6 +128,8 @@
   <script src="/dist/components/visibility.js"></script>
   <script src="/dist/components/sidebar.js"></script>
   <script src="/dist/components/transition.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWO1c5A9tNoFM5q_t28qYbVmAnr83ZwM8&callback=initMap"
+            type="text/javascript"></script>
   <script>
       $(document)
           .ready(function() {
@@ -148,6 +154,16 @@
 
           })
       ;
+      // Initialize and add the map
+      function initMap() {
+          // The location of Uluru
+          var uluru = {lat: -25.344, lng: 131.036};
+          // The map, centered at Uluru
+          var map = new google.maps.Map(
+              document.getElementById('map'), {zoom: 4, center: uluru});
+          // The marker, positioned at Uluru
+          var marker = new google.maps.Marker({position: uluru, map: map});
+      }
   </script>
 </head>
 <body>
@@ -161,7 +177,7 @@
     <a class="item">Careers</a>
     <div class="right menu">
       <div class="item">
-        <a class="ui button">Log in</a>
+        <a class="ui button" href="http://localhost:3000/users/login">Log in</a>
       </div>
       <div class="item">
         <a class="ui primary button">Sign Up</a>
@@ -176,7 +192,7 @@
   <a class="item">Work</a>
   <a class="item">Company</a>
   <a class="item">Careers</a>
-  <a class="item">Login</a>
+  <a class="item" href="http://localhost:3000/users/login">Login</a>
   <a class="item">Signup</a>
 </div>
 
@@ -195,7 +211,7 @@
         <a class="item">Company</a>
         <a class="item">Careers</a>
         <div class="right item">
-          <a class="ui inverted button">Log in</a>
+          <a class="ui inverted button" href="http://localhost:3000/users/login">Log in</a>
           <a class="ui inverted button">Sign Up</a>
         </div>
       </div>
@@ -203,9 +219,10 @@
 
     <div class="ui text container">
       <h1 class="ui inverted header">
-        Imagine-a-Company
+        Smart Sensing
       </h1>
-      <h2>Do whatever you want when you want to.</h2>
+      <h2>Sensing and Localization in firefighting
+          applications</h2>
       <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
     </div>
 
@@ -264,6 +281,7 @@
     </div>
   </div>
 
+    <div id="map"></div>
 
   <div class="ui inverted vertical footer segment">
     <div class="ui container">
@@ -293,6 +311,8 @@
       </div>
     </div>
   </div>
+
+
 </div>
 
 </body>
