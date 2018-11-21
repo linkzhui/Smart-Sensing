@@ -27,7 +27,7 @@ router.post('/sensor', function(req, res, next) {
         }
     };
     console.log("Adding a new item...");
-    docClient.update(params, function(err, data) {
+    docClient.put(params, function(err, data) {
         if (err) {
             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
         } else {
