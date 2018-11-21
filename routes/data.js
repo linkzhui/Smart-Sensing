@@ -1,26 +1,23 @@
 var express = require('express');
 var router = express.Router();
-var admin = require('firebase-admin');
-var appRoot = require('app-root-path');
-var serviceAccount = require(appRoot+'/smart-sensing-d8461-firebase-adminsdk-1smbs-1ca4f83dba.json');
-// As an admin, the app has access to read and write all data, regardless of Security Rules
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://smart-sensing-d8461.firebaseio.com"
-});
-var db = admin.database();
-var ref = db.ref("device");
-ref.once("value", function(snapshot) {
-    console.log(snapshot.val());
-});
+// var admin = require('firebase-admin');
+// var appRoot = require('app-root-path');
+// var serviceAccount = require(appRoot+'/smart-sensing-d8461-firebase-adminsdk-1smbs-1ca4f83dba.json');
+// // As an admin, the app has access to read and write all data, regardless of Security Rules
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: "https://smart-sensing-d8461.firebaseio.com"
+// });
+// var db = admin.database();
+// var ref = db.ref("device");
 
 /* GET home page. */
 router.post('/sensor', function(req, res, next) {
-    ref.child("device_1").update({
-        smoke_level: req.query.smoke,
-        longitude: req.query.longitude,
-        latitude: req.query.latitude
-    });
+    // ref.child("device_1").update({
+    //     smoke_level: req.query.smoke,
+    //     longitude: req.query.longitude,
+    //     latitude: req.query.latitude
+    // });
     res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
 });
 
