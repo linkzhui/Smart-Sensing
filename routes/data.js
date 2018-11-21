@@ -13,12 +13,12 @@ var table = "DEVICE_LIST";
 // var docClient = new AWS.DynamoDB.DocumentClient();
 /* GET home page. */
 router.post('/sensor', function(req, res, next) {
-    var device_id = req.query.device;
+    var id = req.query.device;
     var smoke = req.query.smoke;
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
     var item = {
-            "device_id": {'S':device_id},
+            "id": {'S':id},
             "smoke": {'S':smoke},
             "longitude" : {'S':longitude},
             "latitude" : {'S':latitude}
