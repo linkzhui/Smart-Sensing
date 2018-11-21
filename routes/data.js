@@ -17,19 +17,17 @@ router.post('/sensor', function(req, res, next) {
     var smoke = req.query.smoke;
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
-    var params = {
-        TableName:table,
-        Item:{
-            "DEVICE_ID": device_id,
-            "smoke": smoke,
-            "longitude" : longitude,
-            "latitude" : latitude
-        }
+    var item = {
+            "DEVICE_ID": {'S':device_id},
+            "smoke": {'S':smoke},
+            "longitude" : {'S':longitude},
+            "latitude" : {'S':latitude}
     };
     console.log("Adding a new item...");
     ddb.putItem({
         'TableName':table,
-        'item':params
+        'Item':item,
+        'Expected': { DEVICE_ID: { Exists: false } }
     }, function(err, data) {
         if (err) {
             res.send("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
