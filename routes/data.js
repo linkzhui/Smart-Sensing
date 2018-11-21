@@ -18,7 +18,7 @@ router.post('/sensor', function(req, res, next) {
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
     var item = {
-            "DEVICE_ID": {'N':device_id},
+            "device_id": {'N':device_id},
             "smoke": {'N':smoke},
             "longitude" : {'N':longitude},
             "latitude" : {'N':latitude}
