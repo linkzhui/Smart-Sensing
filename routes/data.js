@@ -1,23 +1,38 @@
 var express = require('express');
 var router = express.Router();
-// var admin = require('firebase-admin');
-// var appRoot = require('app-root-path');
-// var serviceAccount = require(appRoot+'/smart-sensing-d8461-firebase-adminsdk-1smbs-1ca4f83dba.json');
-// // As an admin, the app has access to read and write all data, regardless of Security Rules
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: "https://smart-sensing-d8461.firebaseio.com"
-// });
-// var db = admin.database();
-// var ref = db.ref("device");
+AWS.config.update({
+    "accessKeyId": 'AKIAIDH2NTLUAJHPJWAA',
+    "secretAccessKey": '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',
+    region: 'us-east-2'
+});
 
+// Create DynamoDB service object
+//var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+var table = "DEVICE_LIST";
+var docClient = new AWS.DynamoDB.DocumentClient();
 /* GET home page. */
 router.post('/sensor', function(req, res, next) {
-    // ref.child("device_1").update({
-    //     smoke_level: req.query.smoke,
-    //     longitude: req.query.longitude,
-    //     latitude: req.query.latitude
-    // });
+    var device_id = req.query.device;
+    var smoke = req.query.smoke;
+    var longitude = req.query.longitude;
+    var latitude = req.query.latitude;
+    var params = {
+        TableName:table,
+        Item:{
+            "DEVICE_ID": device_id,
+            "smoke": smoke,
+            "longitude" : longitude,
+            "latitude" : latitude
+        }
+    };
+    console.log("Adding a new item...");
+    docClient.update(params, function(err, data) {
+        if (err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+        } else {
+            console.log("Added item:", JSON.stringify(data, null, 2));
+        }
+    });
     res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
 });
 
