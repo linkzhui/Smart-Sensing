@@ -30,7 +30,7 @@ router.post('/sensor', function(req, res, next) {
         'Expected': { DEVICE_ID: { Exists: false } }
     }, function(err, data) {
         if (err) {
-            res.send("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            res.send("Unable to add item. Error JSON:"+ JSON.stringify(err, null, 2));
             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
         } else {
             res.send("successful");
