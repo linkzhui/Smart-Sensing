@@ -9,15 +9,14 @@ admin.initializeApp({
     databaseURL: "https://smart-sensing-d8461.firebaseio.com"
 });
 var db = admin.database();
-var ref = db.ref("restricted_access/secret_document");
+var ref = db.ref("device");
 ref.once("value", function(snapshot) {
     console.log(snapshot.val());
 });
 
 /* GET home page. */
 router.post('/sensor', function(req, res, next) {
-    var deviceRef = ref.child("device");
-    deviceRef.child("device_1").update({
+    ref.child("device_1").update({
         smoke_level: req.query.smoke,
         longitude: req.query.longitude,
         latitude: req.query.latitude
