@@ -29,12 +29,14 @@ router.post('/sensor', function(req, res, next) {
     console.log("Adding a new item...");
     docClient.put(params, function(err, data) {
         if (err) {
+            res.send("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
         } else {
+            res.send("successful");
             console.log("Added item:", JSON.stringify(data, null, 2));
         }
     });
-    res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
+    //res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
 });
 
 router.get('/sensor', function(req, res, next) {
