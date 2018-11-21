@@ -18,10 +18,10 @@ router.post('/sensor', function(req, res, next) {
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
     var item = {
-            "DEVICE_ID": {'S':device_id},
-            "smoke": {'S':smoke},
-            "longitude" : {'S':longitude},
-            "latitude" : {'S':latitude}
+            "DEVICE_ID": {'N':device_id},
+            "smoke": {'N':smoke},
+            "longitude" : {'N':longitude},
+            "latitude" : {'N':latitude}
     };
     console.log("Adding a new item...");
     ddb.putItem({
