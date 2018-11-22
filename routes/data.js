@@ -40,7 +40,20 @@ router.post('/sensor', function(req, res, next) {
 });
 
 router.get('/sensor', function(req, res, next) {
-    res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
+    ddb.get({
+        TableName: table,
+        Key:{
+            "id": "1"
+        }
+    }, function(err, data) {
+        if (err) {
+            console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+        } else {
+            res.send("GetItem succeeded: " + JSON.stringify(data, null, 2));
+            console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+        }
+    });
+
 });
 
 module.exports = router;
