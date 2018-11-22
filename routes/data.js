@@ -44,7 +44,7 @@ router.get('/sensor', function(req, res, next) {
     docClient.get({
         TableName: table,
         Key:{
-            "id": {'s':"1"}
+            "id": "1"
         }
     }, function(err, data) {
         if (err) {
