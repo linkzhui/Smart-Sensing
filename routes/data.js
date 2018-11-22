@@ -40,10 +40,11 @@ router.post('/sensor', function(req, res, next) {
 });
 
 router.get('/sensor', function(req, res, next) {
-    ddb.get({
+    var docClient = new AWS.DynamoDB.DocumentClient();
+    docClient.get({
         TableName: table,
         Key:{
-            "id": "1"
+            "id": {'s':"1"}
         }
     }, function(err, data) {
         if (err) {
