@@ -18,15 +18,15 @@ router.post('/sensor', function(req, res, next) {
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
     var item = {
-        "id": {'S':id},
-        "smoke": {'S':smoke},
-        "longitude" : {'S':longitude},
-        "latitude" : {'S':latitude}
+            "id": {'S':id},
+            "smoke": {'S':smoke},
+            "longitude" : {'S':longitude},
+            "latitude" : {'S':latitude}
     };
     console.log("Adding a new item...");
     docClient.update({
         'TableName':table,
-        'Item':item
+        'Key':item
     }, function(err, data) {
         if (err) {
             res.send("Unable to add item. Error JSON:"+ JSON.stringify(err, null, 2));
