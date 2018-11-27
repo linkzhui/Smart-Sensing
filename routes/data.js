@@ -48,6 +48,31 @@ router.post('/sensor', function(req, res, next) {
     //res.send('smoke level: ' + req.query.smoke + ' \n' + 'longitude: ' + req.query.longitude + ' \n' + 'latitude: ' + req.query.latitude);
 });
 
+router.post('/fire', function(req, res, next) {
+    var id = req.query.id;
+    var fire = req.query.fire;
+    console.log("Adding a new item...");
+    docClient.update({
+        'TableName':table,
+        'Key':{
+            "id": id+"",
+        },
+        UpdateExpression: "set fire = :r",
+        ExpressionAttributeValues:{
+            ":r":fire,
+        },
+        ReturnValues:"UPDATED_NEW"
+    }, function(err, data) {
+        if (err) {
+            res.send("Unable to add item. Error JSON:"+ JSON.stringify(err, null, 2));
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+        } else {
+            res.send("successful");
+            console.log("Added item:", JSON.stringify(data, null, 2));
+        }
+    });
+});
+
 router.get('/sensor', function(req, res, next) {
     var docClient = new AWS.DynamoDB.DocumentClient();
     docClient.get({
