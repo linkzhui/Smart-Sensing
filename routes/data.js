@@ -17,7 +17,7 @@ router.post('/sensor', function(req, res, next) {
     var smoke = req.query.smoke;
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
-    var carbon_monoxide = req.query.carbon;
+    var carbon_monoxide = req.query.carbon_monoxide;
     var methane = req.query.mathane;
 
     console.log("Adding a new item...");
