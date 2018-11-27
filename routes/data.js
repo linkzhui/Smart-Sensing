@@ -8,7 +8,7 @@ AWS.config.update({
 });
 
 // Create DynamoDB service object
-var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+var docClient = new AWS.DynamoDB.DocumentClient();
 var table = "DEVICE_LIST";
 // var docClient = new AWS.DynamoDB.DocumentClient();
 /* GET home page. */
@@ -18,13 +18,13 @@ router.post('/sensor', function(req, res, next) {
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
     var item = {
-            "id": {'S':id},
-            "smoke": {'S':smoke},
-            "longitude" : {'S':longitude},
-            "latitude" : {'S':latitude}
+        "id": {'S':id},
+        "smoke": {'S':smoke},
+        "longitude" : {'S':longitude},
+        "latitude" : {'S':latitude}
     };
     console.log("Adding a new item...");
-    ddb.putItem({
+    docClient.update({
         'TableName':table,
         'Item':item
     }, function(err, data) {
@@ -50,7 +50,7 @@ router.get('/sensor', function(req, res, next) {
         if (err) {
             console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
         } else {
-            res.send("GetItem succeeded: " + JSON.stringify(data, null, 2));
+            res.json(data.Item);
             console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
         }
     });

@@ -128,11 +128,62 @@
   <script src="/dist/components/visibility.js"></script>
   <script src="/dist/components/sidebar.js"></script>
   <script src="/dist/components/transition.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWO1c5A9tNoFM5q_t28qYbVmAnr83ZwM8&callback=initMap"
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDesxyuaY2YVJNRlgBtod4cdnCIvVEcmlM&callback=initMap"
             type="text/javascript"></script>
   <script>
       $(document)
           .ready(function() {
+
+              //send request to get updated information every 10 seconds
+              sendRequest();
+
+              function sendRequest(){
+                  $.getJSON( "data/sensor", function (data){
+                      // handle your JSON results
+
+                      // Call the timeout at the end of the AJAX response
+                      // This prevents your race condition
+                      //window.alert( "device_id: "+data.id +" smoke:"+data.smoke+" latitude: "+data.latitude+" longitude: "+data.longitude);
+                          updateMap(data.id, data.smoke, parseFloat(data.latitude), parseFloat(data.longitude), "");
+                      setTimeout(function(){
+                          sendRequest();
+                      }, 100000);
+                  }
+                  )
+              }
+
+              function updateMap(id, smoke, latitude, longitude, fire){
+                  // The location of Uluru
+                  var uluru = {lat: latitude, lng: longitude};
+                  // The map, centered at Uluru
+                  var map = new google.maps.Map(
+                      document.getElementById('map'), {zoom: 15, center: uluru});
+
+                  var contentString = '<div id="content">'+
+                      '<div id="siteNotice">'+
+                      '</div>'+
+                      '<h1 id="firstHeading" class="firstHeading">Smart Sensing Info</h1>'+
+                      '<div id="bodyContent">'+
+                      '<p><b>Smart Sensing Info</b><br >'+
+                      'Device_id: ' + id + '<br >' +
+                      'smoke: ' + smoke + '<br >' +
+                      'fire' + fire + '</p>' +
+                      '</div>'+
+                      '</div>';
+
+                  var infowindow = new google.maps.InfoWindow({
+                      content: contentString
+                  });
+
+                  var marker = new google.maps.Marker({
+                      position: uluru,
+                      map: map,
+                      title: 'Uluru (Ayers Rock)'
+                  });
+                  marker.addListener('click', function() {
+                      infowindow.open(map, marker);
+                  });
+              }
 
               // fix menu when passed
               $('.masthead')
@@ -157,12 +208,44 @@
       // Initialize and add the map
       function initMap() {
           // The location of Uluru
-          var uluru = {lat: -25.344, lng: 131.036};
+          var uluru = {lat: 37.334209, lng: -121.879186};
           // The map, centered at Uluru
           var map = new google.maps.Map(
-              document.getElementById('map'), {zoom: 4, center: uluru});
-          // The marker, positioned at Uluru
-          var marker = new google.maps.Marker({position: uluru, map: map});
+              document.getElementById('map'), {zoom: 1, center: uluru});
+          var contentString = '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h1 id="firstHeading" class="firstHeading">Smart Sensing Info</h1>'+
+              '<div id="bodyContent">'+
+              '<p><b>Smart Sensing Info</b>'+
+              'also referred to as <b>Ayers Rock</b>, is a large ' +
+          'sandstone rock formation in the southern part of the '+
+          'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+          'south west of the nearest large town, Alice Springs; 450&#160;km '+
+          '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+          'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+          'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+          'Aboriginal people of the area. It has many springs, waterholes, '+
+          'rock caves and ancient paintings. Uluru is listed as a World '+
+          'Heritage Site.</p>'+
+          '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+          'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+          '(last visited June 22, 2009).</p>'+
+          '</div>'+
+          '</div>';
+
+          var infowindow = new google.maps.InfoWindow({
+              content: contentString
+          });
+
+          var marker = new google.maps.Marker({
+              position: uluru,
+              map: map,
+              title: 'Uluru (Ayers Rock)'
+          });
+          marker.addListener('click', function() {
+              infowindow.open(map, marker);
+          });
       }
   </script>
 </head>
@@ -281,7 +364,8 @@
     <!--</div>-->
   <!--</div>-->
 
-    <div id="map"></div>
+  <div id="map"></div>
+  <div id="databse_data"></div>
 
   <div class="ui inverted vertical footer segment">
     <div class="ui container">
