@@ -26,7 +26,16 @@ router.post('/sensor', function(req, res, next) {
     console.log("Adding a new item...");
     docClient.update({
         'TableName':table,
-        'Key':item
+        Key:{
+            "id": {'S':id},
+        },
+        UpdateExpression: "set smoke = :r, longitude=:p, latitude=:a",
+        ExpressionAttributeValues:{
+            ":r":smoke,
+            ":p":longitude,
+            ":a":latitude
+        },
+        ReturnValues:"UPDATED_NEW"
     }, function(err, data) {
         if (err) {
             res.send("Unable to add item. Error JSON:"+ JSON.stringify(err, null, 2));
