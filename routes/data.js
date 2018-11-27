@@ -26,8 +26,8 @@ router.post('/sensor', function(req, res, next) {
     console.log("Adding a new item...");
     docClient.update({
         'TableName':table,
-        Key:{
-            "id": {'S':id},
+        'Key':{
+            "id": id+"",
         },
         UpdateExpression: "set smoke = :r, longitude=:p, latitude=:a",
         ExpressionAttributeValues:{
