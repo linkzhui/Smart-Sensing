@@ -17,23 +17,22 @@ router.post('/sensor', function(req, res, next) {
     var smoke = req.query.smoke;
     var longitude = req.query.longitude;
     var latitude = req.query.latitude;
-    var item = {
-            "id": {'S':id},
-            "smoke": {'S':smoke},
-            "longitude" : {'S':longitude},
-            "latitude" : {'S':latitude}
-    };
+    var carbon_monoxide = req.query.carbon;
+    var methane = req.query.mathane;
+
     console.log("Adding a new item...");
     docClient.update({
         'TableName':table,
         'Key':{
             "id": id+"",
         },
-        UpdateExpression: "set smoke = :r, longitude=:p, latitude=:a",
+        UpdateExpression: "set smoke = :r, longitude=:p, latitude=:a, carbon_monoxide=:c, methane=:m",
         ExpressionAttributeValues:{
             ":r":smoke,
             ":p":longitude,
-            ":a":latitude
+            ":a":latitude,
+            ":m": methane,
+            ":c": carbon_monoxide
         },
         ReturnValues:"UPDATED_NEW"
     }, function(err, data) {
