@@ -144,7 +144,7 @@
                       // Call the timeout at the end of the AJAX response
                       // This prevents your race condition
                       //window.alert( "device_id: "+data.id +" smoke:"+data.smoke+" latitude: "+data.latitude+" longitude: "+data.longitude);
-                          updateMap(data.id, data.smoke, parseFloat(data.latitude), parseFloat(data.longitude), data.fire);
+                          updateMap(data.id, data.smoke, parseFloat(data.latitude), parseFloat(data.longitude), data.fire,data.carbon_monoxide, data.methane);
                       setTimeout(function(){
                           sendRequest();
                       }, 100000);
@@ -152,7 +152,7 @@
                   )
               }
 
-              function updateMap(id, smoke, latitude, longitude, fire){
+              function updateMap(id, smoke, latitude, longitude, fire,carbon_monoxide,methane){
                   // The location of Uluru
                   var uluru = {lat: latitude, lng: longitude};
                   // The map, centered at Uluru
@@ -167,6 +167,8 @@
                       '<p><b>Smart Sensing Info</b><br >'+
                       'Device_id: ' + id + '<br >' +
                       'smoke: ' + smoke + '<br >' +
+                      'carbon_monoxide: ' + carbon_monoxide + '<br >' +
+                      'methane: ' + methane + '<br >' +
                       'fire detection: ' + fire + '</p>' +
                       '</div>'+
                       '</div>';
@@ -187,8 +189,8 @@
                   $(".Device_id").html(id);
                   $(".Latitude").html(latitude);
                   $(".Longitude").html(longitude);
-                  $(".Carbon_monoxide").html("123");
-                  $(".Methane").html("123");
+                  $(".Carbon_monoxide").html(carbon_monoxide);
+                  $(".Methane").html(methane);
                   $(".Smoke").html(smoke);
                   $(".Fire").html(fire);
               }
