@@ -144,7 +144,7 @@
                       // Call the timeout at the end of the AJAX response
                       // This prevents your race condition
                       //window.alert( "device_id: "+data.id +" smoke:"+data.smoke+" latitude: "+data.latitude+" longitude: "+data.longitude);
-                          updateMap(data.id, data.smoke, parseFloat(data.latitude), parseFloat(data.longitude), "");
+                          updateMap(data.id, data.smoke, parseFloat(data.latitude), parseFloat(data.longitude), data.fire);
                       setTimeout(function(){
                           sendRequest();
                       }, 100000);
